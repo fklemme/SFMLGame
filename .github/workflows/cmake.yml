@@ -9,14 +9,31 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  build-ubuntu:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
+    - name: CMake
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
     - name: CMake
       run: |
         mkdir build
