@@ -3,9 +3,10 @@ cmake_minimum_required(VERSION 3.10)
 # Program name
 project(sfmlgame)
 
-# Specify the C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Define a 'library' to set the c++ standard / compile-time options requested
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
+# (Do not set C++ standard globally as SFML 2.5 is still using std::auto_ptr which has been removed in C++17)
 
 # Add sources
 file(GLOB src "src/*.h" "src/*.cpp")
