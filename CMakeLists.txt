@@ -13,6 +13,8 @@ file(GLOB src "src/*.h" "src/*.cpp")
 add_executable(${PROJECT_NAME} ${src})
 
 # Add SFML
-# set(SFML_STATIC_LIBRARIES TRUE)
+if(WIN32)
+    set(BUILD_SHARED_LIBS FALSE)
+endif()
 add_subdirectory(ext/SFML)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
